@@ -1,0 +1,230 @@
+<!-- <div style="width: 100%">
+    <img src="http://i.4pcdn.org/tv/1431298499541.png" alt="" style="width:50%; height:225px; margin-left: 25%">
+</div>
+<p-accordion>
+    <p-accordionTab [selected]="true">
+        <p-header>
+            <span style="font-size: 20px; font-family: arial;">Prediction</span>
+        </p-header>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-calendar showButtonBar="true" placeholder="Date of Birth" pTooltip="Enter your Date of Birth" [(ngModel)]="predictionData.DOB" [showIcon]="true"></p-calendar>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="maritalOptions" [(ngModel)]="predictionData.maritalStatus" pTooltip="Enter your Marital Status" placeholder="Marital Status" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="salaryOptions" [(ngModel)]="predictionData.salary" placeholder="Salary" optionLabel="name" [showClear]="true"></p-dropdown>
+
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="educationOptions" [(ngModel)]="predictionData.education" placeholder="Education" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="employmentOptions" [(ngModel)]="predictionData.employment" placeholder="Employment" optionLabel="name" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    Gender:
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    <p-radioButton name="Gender" value="Male" label="Male" [(ngModel)]="predictionData.Male" inputId="opt1"></p-radioButton>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    <p-radioButton name="Gender" value="Female" label="Female" [(ngModel)]="predictionData.Female" inputId="opt2"></p-radioButton>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="carModelOptions" [(ngModel)]="predictionData.carModel" pTooltip="Choose your favorite Car Model" placeholder="Car Model" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="cuisineOptions" [(ngModel)]="predictionData.favoriteCuisine" pTooltip="Choose your favorite cuisine" placeholder="Cuisine" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="sportOptions" [(ngModel)]="predictionData.favoriteSport" pTooltip="Choose your favorite Sport" placeholder="Sport" optionLabel="name" [showClear]="true"></p-dropdown>
+
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="subjectOptions" [(ngModel)]="predictionData.favoriteSubject" pTooltip="Choose your favorite subject" placeholder="Subject" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="drinkOptions" [(ngModel)]="predictionData.favoriteDrink" pTooltip="Choose your favorite Drink" placeholder="Drink" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+
+                <p-dropdown [filter]="true" [style]="{'width':'100%'}" [options]="superHeroOptions" [(ngModel)]="predictionData.favoriteHero" pTooltip="Choose your favorite superhero" placeholder="Superhero" optionLabel="name" [showClear]="true"></p-dropdown>
+
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <button icon="pi pi-check" pButton type="button" label="Get Prediction" (click)="showSuccess();getPredictionAccuracy= true"></button>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <button icon="pi pi-times" pButton type="button" label="Clear" (click)='predictionData.clear();'></button>
+            </div>
+        </div>
+        <p-dialog dismissableMask=true modal=true header="Prediction" [(visible)]="getPredictionAccuracy" [contentStyle]="{'width':'100%'}">
+
+            <div>
+                <p-fieldset legend="Recommended Packages">
+                    <p-chart height='250' responsive=true type="bar" [data]="chartdata"></p-chart>
+
+                </p-fieldset>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 ui-lg-12">
+                        Was this an accurate prediction?
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-sm-6 ui-lg-6">
+                        <p-radioButton name="predictionAccuracy" inputId="opt1" (click)='showSubmitAccuracy = true'></p-radioButton>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-sm-6 ui-lg-6">
+                        <p-radioButton name="predictionAccuracy" inputId="opt2" (click)='showSubmitAccuracy = true'></p-radioButton>
+                    </div>
+                </div>
+                <div class="ui-g ui-fluid">
+                    <div *ngIf="showSubmitAccuracy" class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <button icon="pi pi-check" pButton type="button" label="Submit" (click)="showSubmitAccuracySuccess();"></button>
+                    </div>
+                </div>
+                <p-messages [(value)]="Accuracymsgs"></p-messages>
+            </div>
+
+        </p-dialog>
+    </p-accordionTab>
+    <p-accordionTab>
+        <p-header>
+            <span style="font-size: 20px; font-family: arial;">Feedback</span>
+        </p-header>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-calendar showButtonBar="true" placeholder="Date of Birth" pTooltip="Enter your Date of Birth" [(ngModel)]="feedbackData.DOB" [showIcon]="true"></p-calendar>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+                <p-dropdown [filter]="true" [style]="{ 'width': '100%'}" [options]="maritalOptions" [(ngModel)]="feedbackData.maritalStatus" pTooltip="Enter your Marital Status" placeholder="Marital Status" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+
+
+                <p-dropdown [filter]="true" [style]="{ 'width': '100%'}" [options]="salaryOptions" [(ngModel)]="feedbackData.salary" placeholder="Salary" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <p-dropdown [filter]="true" [style]="{ 'width': '100%'}" [options]="educationOptions" [(ngModel)]="feedbackData.education" placeholder="Education" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <p-dropdown [filter]="true" [style]="{ 'width': '100%'}" [options]="employmentOptions" [(ngModel)]="feedbackData.employment" placeholder="Employment" optionLabel="name" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    Gender:
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    <p-radioButton name="Gender" value="Male" label="Male" [(ngModel)]="feedbackData.gender" inputId="opt1"></p-radioButton>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-4 ui-lg-4">
+                    <p-radioButton name="Gender" value="Female" label="Female" [(ngModel)]="feedbackData.gender" inputId="opt2"></p-radioButton>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite TV Show" [(ngModel)]="feedbackData.favoriteTVShow">
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <p-dropdown [filter]="true" [style]="{ 'width': '100%'}" [options]="carModelOptions" [(ngModel)]="feedbackData.carModel" placeholder="Favorite Car Model" optionLabel="name" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Cuisine" [(ngModel)]="feedbackData.favoriteCuisine">
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Sport" [(ngModel)]="feedbackData.favoriteSport">
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Movie Genre" [(ngModel)]="feedbackData.favoriteGenre">
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Subject" [(ngModel)]="feedbackData.favoriteSubject">
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Alcoholic Drink" [(ngModel)]="feedbackData.favoriteDrink">
+
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <input type="text" pInputText placeholder="Favorite Super Hero" [(ngModel)]="feedbackData.favoriteHero">
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <button icon="pi pi-check" pButton type="button" label="Submit Feedback" (click)='submitFeedback();showfeedBackSuccess()'></button>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                <button icon="pi pi-times" pButton type="button" label="Clear" (click)='feedbackData.clear();'></button>
+            </div>
+        </div>
+        <p-messages [(value)]="FeedBackMsg"></p-messages>
+    </p-accordionTab>
+</p-accordion> -->
+
+
+<div style="background-image: linear-gradient(to left,#2bc0ec,#1b81d7);
+color: #fff;display: block;
+    padding: 30px;
+    overflow: hidden;
+    background-color: #f5f7f8;">
+    <div><span style="line-height: 1.5em;" class="feature-title">Serverless Architecture - Stock Insights</span><span>Detailed Architecture Overview</span></div>
+</div>
+<div *ngIf="!showStocks" style="padding-left: 25%">
+    <img style="width: 55%;" src="http://myweb.usf.edu/~peterattia/assets/architecture.jpg" alt="Serverless Architecture">
+</div>
+
+<div style="background-image: linear-gradient(to left,#2bc0ec,#1b81d7);
+color: #fff;display: block;
+    padding: 30px;
+    overflow: hidden;
+    background-color: #f5f7f8;">
+    <p-button *ngIf="!showStocks" style="padding-top: 5px;" label="Let's Get Started " (click)="showStocks = true;"></p-button>
+</div>
+<app-stocks *ngIf="showStocks"></app-stocks>

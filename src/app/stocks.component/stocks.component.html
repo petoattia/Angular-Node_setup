@@ -1,0 +1,410 @@
+<div style="background-image:url('/assets/architecture.jpg');background-position: center;
+background-repeat: no-repeat;
+background-size: cover; height: 100%;"></div>
+<p-tabView>
+    <p-tabPanel header="Serverless Architecture">
+        <div style="padding: 10px;">
+            <p-fieldset legend="Why Serverless Architecture?" [toggleable]="true">
+                <ul style="font-size: 22px;">
+                    Hosting a software application on the internet usually involves managing some kind of server infrastructure. Typically this means a virtual or physical server that needs to be managed, as well as the operating system and other web server hosting processes
+                    required for your application to run. Using a virtual server from a cloud provider such as Amazon or Microsoft does mean the elimination of the physical hardware concerns, but still requires some level of management of the operating
+                    system and the web server software processes.
+                </ul>
+            </p-fieldset>
+            <p-fieldset legend="How does Serverless or FaaS Differ from PaaS?" [toggleable]="true">
+                <ul style="font-size: 22px;">
+                    PaaS, or Platform as a Service, products such as Heroku, Azure Web Apps and AWS Elastic Beanstalk offer many of the same benefits as Serverless (sometimes called Function as a Service or FaaS). They do eliminate the need for management of server hardware
+                    and software. The primary difference is in the way you compose and deploy your application, and therefore the scalability of your application. With PaaS, your application is deployed as a single unit and is developed in the traditional
+                    way using some kind of web framework like ASP.NET, Flask, Ruby on Rails, Java Servlets, etc. Scaling is only done at the entire application level. You can decide to run multiple instances of your application to handle additional load.
+                    With FaaS, you compose your application into individual, autonomous functions. Each function is hosted by the FaaS provider and can be scaled automatically as function call frequency increases or decreases. This turns out to be a very
+                    cost effective way of paying for compute resources. You only pay for the times that your functions get called, rather than paying to have your application always on and waiting for requests on so many different instances.
+                </ul>
+            </p-fieldset>
+            <p-fieldset legend="Who Should Use Serverless?" [toggleable]="true">
+                <ul style="font-size: 22px;">
+                    You should especially consider using a serverless provider if you have a small number of functions that you need hosted. If your application is more complex, a serverless architecture can still be beneficial, but you will need to architect your application
+                    very differently. This may not be feasible if you have an existing application. It may make more sense to migrate small pieces of the application into serverless functions over time. Using a product like Twilio Functions is especially
+                    helpful for builders and developers wanting to implement a Twilio solution. They are able to select pre-defined templates and deploy common communications use-cases without the need to host a server or use any other providers.
+                </ul>
+            </p-fieldset>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Apple Stock Information">
+        <p-accordion>
+            <p-accordionTab [selected]="true">
+                <p-header>
+                    <span style="font-size: 20px; font-family: arial;">Company Information</span>
+                </p-header>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-6 ui-sm-6 ui-lg-4">
+                        <span class="label">Average Total Volume:</span>&nbsp;{{AppleInfo.avgTotalVolume}}
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <span class="label">Change Percent:</span>&nbsp;{{AppleInfo.changePercent}}%
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <span class="label">High:</span>&nbsp;$&nbsp;{{AppleInfo.high}}
+                    </div>
+                </div>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <span class="label">Low:</span>&nbsp;$&nbsp;{{AppleInfo.low}}
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <span class="label">latest Price:</span>&nbsp;$&nbsp;{{AppleInfo.latestPrice}}
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-sm-6 ui-lg-4">
+                        <span class="label">Latest Time:</span>&nbsp;{{AppleInfo.latestTime}}
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab>
+                <p-header>
+                    <span style="font-size: 20px; font-family: arial;">News</span>
+                </p-header>
+                <div class="ui-g ui-fluid">
+                    <div *ngFor="let item of AppleNews" class="ui-g-12 ui-md-6 ui-sm-6 ui-lg-6">
+                        <p-card>
+                            <div style="padding-bottom : 5px;">
+                                <p-header class="label">
+                                    {{item.headline}}
+                                </p-header>
+                            </div>
+                            {{item.summary}}
+                            <br>
+                            <p-button style="padding-top: 5px;" label="Visit the full artical Here" (click)="openArticle(item.url)"></p-button>
+                        </p-card>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab>
+                <p-header>
+                    <span style="font-size: 20px; font-family: arial;">Stock Activity</span>
+                </p-header>
+                <!-- <div class="ui-g ui-fluid"> -->
+                <p-chart type="line" [data]="AppleChartData"></p-chart>
+                <!-- </div> -->
+            </p-accordionTab>
+        </p-accordion>
+    </p-tabPanel>
+    <p-tabPanel header="IT Companies Information">
+        <p-header>
+            <span style="font-size: 20px; font-family: arial;">Company Information</span>
+        </p-header>
+        <div class="ui-g ui-fluid" style="padding-top: 20px;">
+            <span class="label">Choose one of these companies:</span>
+            <div class="ui-g ui-fluid">
+                <p-button style="padding-left: 10px;" label="Apple" (click)="getCompanyInformation('aapl');sectionName = 'Apple'"></p-button>
+                <p-button style="padding-left: 10px;" label="Facebook" (click)="getCompanyInformation('fb'); sectionName = 'Facebook'"></p-button>
+                <p-button style="padding-left: 10px;" label="Microsoft" (click)="getCompanyInformation('MSFT');sectionName = 'Microsoft'"></p-button>
+            </div>
+        </div>
+        <p-fieldset legend="{{sectionName}}" *ngIf="showSpecificCompanyInfo">
+
+            <div class="ui-g ui-fluid" *ngIf="showSpecificCompanyInfo" style="padding-top: 20px;">
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">Name:</span>&nbsp;{{SpecificCompanyInfo.companyName}}
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">Exchange:</span>&nbsp;{{SpecificCompanyInfo.exchange}}
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">Industry:</span>&nbsp;{{SpecificCompanyInfo.industry}}
+                </div>
+            </div>
+            <div class="ui-g ui-fluid" *ngIf="showSpecificCompanyInfo">
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">Website:</span>&nbsp;{{SpecificCompanyInfo.website}}
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">CEO:</span>&nbsp;{{SpecificCompanyInfo.CEO}}
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                    <span class="label">Sector:</span>&nbsp;{{SpecificCompanyInfo.sector}}
+                </div>
+            </div>
+            <div class="ui-g ui-fluid" *ngIf="showSpecificCompanyInfo">
+                <div class="ui-g-12 ui-md-12 ui-sm-12 ui-lg-12">
+                    <span class="label">Description:</span>&nbsp;{{SpecificCompanyInfo.description}}
+                </div>
+            </div>
+        </p-fieldset>
+    </p-tabPanel>
+    <p-tabPanel header="Crypto Currency">
+        <p-table [value]="cryptoData" [responsive]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Company Name</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Latest Price</th>
+                    <th>Latest Time</th>
+                    <th>Previous Close</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="Crypto Currency Information">
+                <tr>
+                    <th *ngFor="let col of cryptoCols">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car>
+                <tr>
+                    <td *ngFor="let col of cryptoCols">
+                        {{car[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="Earnings">
+        <p-header>
+            <span style="font-size: 20px; font-family: arial;">Company Information</span>
+        </p-header>
+        <div class="ui-g ui-fluid" style="padding-top: 20px;">
+            <span class="label">Choose one of these companies:</span>
+            <div class="ui-g ui-fluid">
+                <p-button style="padding-left: 10px;" label="Apple" (click)="getEarningsCompanyInformation('aapl');Earnings_sectionName = 'Apple'"></p-button>
+                <p-button style="padding-left: 10px;" label="Facebook" (click)="getEarningsCompanyInformation('fb'); Earnings_sectionName = 'Facebook'"></p-button>
+                <p-button style="padding-left: 10px;" label="Microsoft" (click)="getEarningsCompanyInformation('MSFT');Earnings_sectionName = 'Microsoft'"></p-button>
+            </div>
+        </div>
+        <div *ngIf="Earnings_showSpecificCompanyInfo" style="border-radius: 3px;border-style: solid;border-color: green; margin-top: 20px;">
+            <div style="padding-top: 10px; padding-left: 50%;">
+                <p-header>
+                    <span class="label" style="font-size: 24px;">{{Earnings_sectionName}}</span>
+                </p-header>
+            </div>
+            <div *ngFor="let item of Earnings_specificCompanyInfo" style="padding: 10px;">
+                <p-fieldset legend="{{item.fiscalPeriod}}" [toggleable]="true">
+
+                    <div class="ui-g ui-fluid" *ngIf="Earnings_showSpecificCompanyInfo" style="padding-top: 20px;">
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Actual EPS:</span>&nbsp;{{item.actualEPS}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Announce Time:</span>&nbsp;{{item.announceTime}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Number Of Estimates:</span>&nbsp;{{item.numberOfEstimates}}
+                        </div>
+                    </div>
+                    <div class="ui-g ui-fluid" *ngIf="Earnings_showSpecificCompanyInfo">
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">EPS Surprise Dollar:</span>&nbsp;{{item.EPSSurpriseDollar}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">EPS Report Date:</span>&nbsp;{{item.EPSReportDate}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Fiscal End Date:</span>&nbsp;{{item.fiscalEndDate}}
+                        </div>
+                    </div>
+                    <div class="ui-g ui-fluid" *ngIf="Earnings_showSpecificCompanyInfo">
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Year Ago:</span>&nbsp;{{item.yearAgo}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Year Ago Change Percent:</span>&nbsp;{{item.yearAgoChangePercent}}
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-sm-12 ui-lg-4">
+                            <span class="label">Estimated Change Percent:</span>&nbsp;{{item.estimatedChangePercent}}
+                        </div>
+                    </div>
+
+                </p-fieldset>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="About project">
+        <div style="padding: 10px;">
+
+            <p-fieldset legend="Responsiveness – compatibility with small (mobile), medium (tablet) and large (desktop) screen sizes" [toggleable]="true">
+                <ul>
+                    <li>The Website and all included ( tables / charts / sections / cards / Info Grids )should be compatible with small, medium, large screen sizes</li>
+                    <li>We Used Bootstrap, CSS and PrimeNG Angular Components to get the website compatible with all screen sizes</li>
+                </ul>
+            </p-fieldset>
+        </div>
+        <div style="padding: 10px;">
+            <p-fieldset legend="Usability – ease of use and navigation of your interface end users" [toggleable]="true">
+                <ul>
+                    <li>The Website is user friendly to navigate as it uses tabular view on top to navigate</li>
+                    <li>Each Section has sub sections related to the header tab information that can be easily opened and navigated and all information on website are real time</li>
+                    <li>We used different style for each of the sub sections. The design included ( Accordions, Buttons, Field Sets, charts, data tables, collapsable field sets) </li>
+                </ul>
+            </p-fieldset>
+        </div>
+        <div style="padding: 10px;">
+            <p-fieldset legend="Content – relevance of the content on the site" [toggleable]="true">
+                <ul>
+                    <li>The Website is made to provide stock insights through the use of APIs to get data - HTML, CSS, Javascript, Angular to display data and build interactive website to users</li>
+                    <li>The content and data displayed in the site is real time data pulled using HTTP calls using APIs provided by https://iextrading.com</li>
+                    <li>Each tab and sub section should reflect data related to the title of it and actions on the website will guide users through</li>
+                </ul>
+            </p-fieldset>
+        </div>
+        <div style="padding: 10px;">
+            <p-fieldset legend="Design – use of at least 3 specific design guidelines and ideas for web sites" [toggleable]="true">
+                <ul>
+                    <li>Tabular View - Top Navigation guilde line of headers for users</li>
+                    <li>Accordions - Expandable / Collapsable sub sections to make navigation easier for users</li>
+                    <li>Field Sets - Easy to read informatino wrapped in a section like view</li>
+                    <li>News Cards - daily dynamic cards based on news that come from the APIs and launchable buttons for full their full articles</li>
+                    <li>Data Tables - Table to view all the date relatd to crypto currency</li>
+                    <li>Charts - Chart to show stock activity ( open, high, low, close ) for Apple Stock</li>
+                    <li>Buttons - to provide interactive website content to dispaly data based on user selections</li>
+                </ul>
+            </p-fieldset>
+        </div>
+        <div style="padding: 10px;">
+            <p-fieldset legend="Reflections - Time - Recommendations" [toggleable]="true">
+                <ul>
+                    <li>This Website was a great learning experince for the team as we learned Angular frame work - CSS techniques - HTML - HTTP Calls </li>
+                    <li>We learned how to deploy a working website to a server and how to edit the website on the server if needed</li>
+                    <li>Time : 4 hours for each team member</li>
+                    <li>We recommend using angular or similar javascript frame works in future classes as it provides very poweful tools for web development</li>
+                </ul>
+            </p-fieldset>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Angular - Node Js Setup">
+
+        <p-fieldset legend="Installation / Setup" [toggleable]="true">
+            <pre style="font-size: 20px; font-family: cursive;">
+                        1. Install Visual Studio Code
+                            a. https://code.visualstudio.com/
+                            b. Install all needed extensions
+                                 i. Angular v7 Snippets
+                                ii. HTML Snippets
+                               iii. jQuery Code Snippets
+                                iv. JS-Css-Html-Formatter
+                                 v. Debugger for Chrome
+                                vi. Azure Tools
+                               vii. PrimeNG 7 Snippets
+                        
+                        2. Install Node JS   ⇒ https://nodejs.org/en/
+                            a. Angular requires Node.js version 8.x or 10.x
+                            b. To check your version, run node -v in a terminal/console window
+        
+                        3. Install Angular CLI
+                            a. npm install -g @angular/cli
+                            b. To check that you have the npm client installed, run npm -v in a terminal/console window
+        
+                        4. Create a workspace and initial application
+                            a. ng new my-app
+        
+                        5.Serve the Application 
+                            a. cd my-app
+                            b. ng serve --open
+                            c. Open :-   http://localhost:4200/
+                            
+                        6. Angular Code website example
+                        http://myweb.usf.edu/~peterattia/index
+                        
+                        
+                        * For more in depth information on Angular visit :-
+                        https://angular.io
+                        
+                </pre>
+        </p-fieldset>
+
+        <div style="width:90%">
+            <p-fieldset legend="Architecture Explanation" [toggleable]="true">
+                <p-fieldset legend="Architecture" [toggleable]="true">
+                    <img src="https://angular.io/generated/images/guide/architecture/overview2.png" alt="Anuglar Architecture">
+                </p-fieldset>
+                <p-fieldset legend="Module" [toggleable]="true" [collapsed]=true>
+
+                    <pre style="font-size: 20px; font-family: cursive;">
+                                    * declarations: The components, directives, and pipes that belong to this NgModule.
+            
+                                    * exports: The subset of declarations that should be visible and usable in the component templates of other NgModules.
+                                    
+                                    * imports: Other modules whose exported classes are needed by component templates declared in this NgModule.
+                                    
+                                    * providers: Creators of services that this NgModule contributes to the global collection of services; they become accessible 
+                                    in all parts of the app. (You can also specify providers at the component level, which is often preferred.)
+                                    
+                                    * bootstrap: The main application view, called the root component, which hosts all other app views. Only the root NgModule 
+                                    should set the bootstrap property.
+            
+            
+                                    * for more detailed information :
+                                    https://angular.io/guide/architecture-modules
+                            </pre>
+                </p-fieldset>
+                <p-fieldset legend="Components" [toggleable]="true" [collapsed]=true>
+
+                    <pre style="font-size: 20px; font-family: cursive;">
+
+                        * Components gives you the privlige of code resuability where you can reuse any components across application 
+                            The component can be included and accessed across where no code needs to be rewritten
+
+                        * Angular provides the ability to export fuull applications / components to be used in other angular application without the need 
+                            of Iframes
+
+                            * selector: A CSS selector that tells Angular to create and insert an instance of this component wherever it finds the corresponding
+                            tag in template HTML. For example, if an app's HTML contains app-hero-list , then Angular inserts an instance of the 
+                            HeroListComponent view between those tags.
+
+                            * templateUrl: The module-relative address of this component's HTML template. Alternatively, you can provide the HTML template inline, 
+                            as the value of the template property. This template defines the component's host view.
+                            
+                            * providers: An array of providers for services that the component requires. In the example, this tells Angular how to provide the 
+                            HeroService instance that the component's constructor uses to get the list of heroes to display.
+                            
+                            
+                            * for more detailed information:
+                                    https://angular.io/guide/architecture-components
+                                </pre>
+                </p-fieldset>
+                <p-fieldset legend="Templates" [toggleable]="true" [collapsed]=true>
+
+                    <pre style="font-size: 20px; font-family: cursive;">
+                            * Each component can have it's own html template - Also multiple conmponents can share the same template
+
+                            * Templates are simple html files that are related to a specific component that they are imported in a componet 
+
+                            * Templates have full access to the variables, objects, data inside the components
+
+                            * Templates provide two way data binding: where any user actions / activiy / data change in html happens will reflect real time in the 
+                            component  ==> which can be ver useful on real time click stream analysis - data saving
+
+                            * for more detailed information:
+                                    https://angular.io/guide/displaying-data
+                                    </pre>
+                </p-fieldset>
+                <p-fieldset legend="Http Client - Services " [toggleable]="true" [collapsed]=true>
+
+                    <pre style="font-size: 20px; font-family: cursive;">
+                            
+                            * The HttpClient in @angular/common/http offers a simplified client HTTP API for Angular applications that rests on the XMLHttpRequest 
+                            interface exposed by browsers. Additional benefits of HttpClient include testability features, typed request and response objects, 
+                            request and response interception, Observable apis, and streamlined error handling.
+                            
+                            * This provides a very simple way to do http calls and parse the json response from the APIs
+                                    this.http.get(this.configUrl);  ==> this will simply do an http call to an API and
+
+                            * Writing http calls in service files ( injectible ) is a very powerful feature
+                                1. you can consume a service / API calls across all components
+                                2. you can create models in the service and expose that to all the componets to consum
+                                    and display in the page
+    
+                            * for more detailed information
+                                https://angular.io/guide/http
+                                        </pre>
+                </p-fieldset>
+                <p-fieldset legend="Sample Working downloadble Code" [toggleable]="true" [collapsed]=true>
+
+                    <pre style="font-size: 20px; font-family: cursive;">
+                            * Download this project from github at the below link
+                               .....coming soon
+                                            </pre>
+                </p-fieldset>
+            </p-fieldset>
+        </div>
+    </p-tabPanel>
+</p-tabView>
